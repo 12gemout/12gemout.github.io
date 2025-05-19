@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts with Enhanced Animations and Beautiful Border</title>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/maps/guangdong.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        
+        .header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #2c3e50, #4ca1af, #2c3e50);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientTitle 3s infinite alternate;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .chart-container {
+            width: 1000px;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-border {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: borderGlow 3s infinite alternate;
+        }
+        
+        .chart-inner {
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #4ca1af;
+            transform: rotate(45deg);
+        }
+        
+        .corner-tl {
+            top: -10px;
+            left: -10px;
+        }
+        
+        .corner-tr {
+            top: -10px;
+            right: -10px;
+        }
+        
+        .corner-br {
+            bottom: -10px;
+            right: -10px;
+        }
+        
+        .corner-bl {
+            bottom: -10px;
+            left: -10px;
+        }
+        
+        @keyframes borderGlow {
+            0% {
+                box-shadow: 0 15px 30px rgba(76, 161, 175, 0.2);
+            }
+            100% {
+                box-shadow: 0 15px 30px rgba(44, 62, 80, 0.2);
+            }
+        }
+        
+        @keyframes gradientTitle {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">广东省政府政策文件地区分布频率图</h1>
+        <p class="subtitle">数据可视化展示</p>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-border">
+            <div class="chart-inner">
+                <div id="bfda007f2f0d42f4be45c00c9392dcd9" style="width: 100%; height: 100%;"></div>
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="corner-decoration corner-bl"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 ECharts 实例
+        var chart = echarts.init(
+            document.getElementById('bfda007f2f0d42f4be45c00c9392dcd9'), 'white', { renderer: 'canvas' }
+        );
+
+        // 配置项
+        var option = {
+            animation: true,
+            animationDuration: 2000,
+            animationEasing: 'elasticOut',
+            animationDelay: 0,
+            animationDurationUpdate: 500,
+            animationEasingUpdate: 'cubicOut',
+            animationDelayUpdate: 0,
+
+            // 地图配置
+            geo3D: {
+                map: '广东',
+                boxWidth: 100,
+                boxHeight: 10,
+                regionHeight: 3,
+                groundPlane: {
+                    show: false,
+                    color: '#aaa'
+                },
+                viewControl: {
+                    autoRotate: true,
+                    rotateSpeed: 10,
+                    distance: 150,
+                    alpha: 45,
+                    beta: 0
+                },
+                emphasis: {
+                    label: {
+                        show: true
+                    }
+                },
+                temporalSuperSampling: {
+                    enable: 'auto'
+                },
+                zlevel: -10
+            },
+
+            // 柱状图配置
+            series: [
+                {
+                    type: 'bar3D',
+                    name: '3D地图',
+                    coordinateSystem: 'geo3D',
+                    barSize: 2,
+                    bevelSize: 1,
+                    bevelSmoothness: 2,
+                    minHeight: 2,
+                    label: {
+                        show: false,
+                        margin: 8,
+                        valueAnimation: true
+                    },
+                    itemStyle: {
+                        color: '#B8F1ED',
+                        opacity: 0.8
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 16,
+                            color: '#000'
+                        },
+                        itemStyle: {
+                            color: '#4CAF50',
+                            opacity: 1
+                        }
+                    },
+                    data: [
+                        { name: '广州市', value: [113.280637, 23.125178, 15] },
+                        { name: '韶关市', value: [113.591544, 24.801322, 10] },
+                        { name: '深圳市', value: [114.085947, 22.547, 11] },
+                        { name: '珠海市', value: [113.553986, 22.224979, 10] },
+                        { name: '汕头市', value: [116.708463, 23.37102, 11] },
+                        { name: '佛山市', value: [113.122717, 23.028762, 12] },
+                        { name: '江门市', value: [113.094942, 22.590431, 12] },
+                        { name: '湛江市', value: [110.364977, 21.274898, 14] },
+                        { name: '茂名市', value: [110.919229, 21.659751, 9] },
+                        { name: '肇庆市', value: [112.472529, 23.051546, 11] },
+                        { name: '惠州市', value: [114.412599, 23.079404, 10] },
+                        { name: '梅州市', value: [116.117582, 24.299112, 12] },
+                        { name: '汕尾市', value: [115.364238, 22.774485, 11] },
+                        { name: '河源市', value: [114.697802, 23.746266, 10] },
+                        { name: '阳江市', value: [111.975107, 21.859222, 10] },
+                        { name: '清远市', value: [113.051227, 23.685022, 10] },
+                        { name: '东莞市', value: [113.746262, 23.046237, 12] },
+                        { name: '中山市', value: [113.382391, 22.521113, 14] },
+                        { name: '潮州市', value: [116.632301, 23.661701, 13] },
+                        { name: '揭阳市', value: [116.355733, 23.543778, 15] },
+                        { name: '云浮市', value: [112.044439, 22.929801, 8] }
+                    ],
+                    shading: 'lambert',
+                    zlevel: -10
+                }
+            ],
+            title: [
+                {
+                    show: true,
+                    text: '广东省政府政策文件地区分布频率图',
+                    left: 'center',
+                    textStyle: {
+                        fontSize: 18,
+                        fontWeight: 'bold'
+                    }
+                }
+            ],
+            tooltip: {
+                show: true,
+                trigger: 'item',
+                formatter: function (params) {
+                    return params.name + ': ' + params.value[2];
+                }
+            }
+        };
+
+        // 设置配置项
+        chart.setOption(option);
+
+        // 添加鼠标悬停时的动画效果
+        chart.on('mouseover', function (params) {
+            chart.dispatchAction({
+                type: 'highlight',
+                seriesIndex: 0,
+                name: params.name
+            });
+        });
+
+        chart.on('mouseout', function (params) {
+            chart.dispatchAction({
+                type: 'downplay',
+                seriesIndex: 0,
+                name: params.name
+            });
+        });
+    </script>
+</body>
+</html>
