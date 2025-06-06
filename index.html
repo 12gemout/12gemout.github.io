@@ -6,12 +6,17 @@
     <title>“连山巾帼”HR</title>
      <style>
          body {
-            font-family: 'Poppins', sans-serif; /* 更换为更优雅的字体 */
-            background: 
-                linear-gradient(135deg, #f0f9ff 0%, #cbebff 100%);
-            margin: 0;;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 50px;
+            background-color: #e0f7fa; /* 单一背景颜色 */
+            background-size: cover; /* 确保背景图片或颜色覆盖整个元素 */
+            background-repeat: no-repeat; /* 背景图片不重复 */
+            background-position: center; /* 背景图片居中 */
+            background-attachment: fixed; /* 固定背景图片，滚动时内容滚动，背景不动 */
+            background-blend-mode: multiply; /* 混合模式，为内容提供一种纹理效果 */
+            position: relative;
+            overflow: hidden; /* 防止内容溢出 */
         }
 
         /* 顶部标题区 */
@@ -220,6 +225,7 @@
                 line-height: 1.6; /* 行高恢复 */
             }
         }
+        
     </style>
 </head>
 <body>
@@ -245,7 +251,7 @@
                     <i class="fa fa-external-link"></i>进入可视化界面
                     </button>
             <div class="right-info">
-               数据说明：<br>
+                数据说明：<br>
                 女性就业的具体痛点的主题化分析
             </div>
         </div>
